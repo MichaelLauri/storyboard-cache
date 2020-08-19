@@ -5,6 +5,7 @@ const fileController = require('../controllers/fileController');
 const cookieController = require('../controllers/cookieController');
 const eventController = require('../controllers/eventController');
 const loginController = require('../controllers/loginController');
+const eventsRouter = require('./events');
 
 // EXISING USER LOGIN
 
@@ -86,12 +87,6 @@ router.post(
   }
 );
 
-router.get(
-  '/events', // SWITCH THIS TO A GET REQUEST!!
-  eventController.allEvents,
-  (req, res) => {
-    return res.status(200).json(res.locals.allEventsInfo);
-  }
-);
+router.use('/events', eventsRouter);
 
 module.exports = router;
