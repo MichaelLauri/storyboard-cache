@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 const path = require('path');
 const fileController = require('../controllers/fileController');
@@ -8,14 +8,13 @@ const loginController = require('../controllers/loginController');
 
 // EXISING USER LOGIN
 
-router.get('/login',
-  loginController.oAuth,
-  (req, res) => {
-    // res.send('ok');
-    return res.redirect(res.locals.url)
-  });
+router.get('/login', loginController.oAuth, (req, res) => {
+  // res.send('ok');
+  return res.redirect(res.locals.url);
+});
 
-router.get('/login/google',
+router.get(
+  '/login/google',
   loginController.afterConsent,
   cookieController.setSSIDCookie,
   fileController.createUser, // if username already exists, return next() => getUser // if not, create user in SQL database
@@ -26,12 +25,14 @@ router.get('/login/google',
     //   users: res.locals.allUserInfo,
     //   events: res.locals.allEventsInfo
     // };
-    return res.redirect('/') //WAS "http://localhost:8080/"
-  });
+    return res.redirect('/'); //WAS "http://localhost:8080/"
+  }
+);
 
 // REVISIT WEBSITE AFTER LEAVING, OR VISITING SOMEONE ELSE'S PROFILE PAGE
 
-router.get('/info',
+router.get(
+  '/info',
   cookieController.isLoggedIn, // this is really only is applicable for the same user
   fileController.getUser,
   eventController.allEvents,
@@ -47,42 +48,50 @@ router.get('/info',
     };
     console.log('responseObj: ', responseObj);
     return res.status(200).json(responseObj);
-  });
+  }
+);
 
 // LOGGING OUT
 
-router.use('/logout', // SWITCH THIS TO POST REQUEST!!
+router.use(
+  '/logout', // SWITCH THIS TO POST REQUEST!!
   cookieController.removeCookie,
   (req, res) => {
     return res.status(200).json('Successful logout.');
-  });
+  }
+);
 
 // CREATE A NEW EVENT
 
-router.post('/create',
+router.post(
+  '/create',
   fileController.verifyUser,
   fileController.getUser,
   eventController.createEvent,
   eventController.addNewEventToJoinTable,
   (req, res) => {
     return res.status(200).json('Event succcessfully created.');
-  });
+  }
+);
 
 // ADD USER TO AN EXISTING EVENT
 
-router.post('/add',
+router.post(
+  '/add',
   fileController.getUser,
   eventController.verifyAttendee,
   eventController.addAttendee,
   (req, res) => {
     return res.status(200).json('User successfully added as attendee.');
-  });
+  }
+);
 
-router.get('/events', // SWITCH THIS TO A GET REQUEST!!
+router.get(
+  '/events', // SWITCH THIS TO A GET REQUEST!!
   eventController.allEvents,
   (req, res) => {
     return res.status(200).json(res.locals.allEventsInfo);
   }
-)
+);
 
 module.exports = router;
