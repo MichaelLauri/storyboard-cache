@@ -23,6 +23,7 @@ export default function MainContainer() {
       let eventsInfo = res.data.events;
       setUser(userInfo);
       setEvents(eventsInfo);
+
       setUserName(res.data.users.username);
     });
   }, []);
@@ -32,7 +33,6 @@ export default function MainContainer() {
   }
   //handles the state change and posts to database on event creation
   function handleCreateEvent(event, newEvent, eventIndex) {
-    console.log(event);
     let {
       eventtitle,
       eventlocation,

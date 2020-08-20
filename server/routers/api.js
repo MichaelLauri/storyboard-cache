@@ -19,9 +19,8 @@ router.get(
   loginController.afterConsent,
   cookieController.setSSIDCookie,
   fileController.createUser, // if username already exists, return next() => getUser // if not, create user in SQL database
-  // fileController.getUser,
-  // eventController.getFullEvents,
   (req, res) => {
+<<<<<<< HEAD
     // const responseObj = {
     //   users: res.locals.allUserInfo,
     //   events: res.locals.allEventsInfo
@@ -34,28 +33,34 @@ router.get(
 
 router.get(
   '/info',
+=======
+    return res.redirect('/') //WAS "http://localhost:8080/"
+  });
+
+// REVISIT WEBSITE AFTER LEAVING, OR VISITING SOMEONE ELSE'S PROFILE PAGE
+router.get('/info',
+>>>>>>> master
   cookieController.isLoggedIn, // this is really only is applicable for the same user
   fileController.getUser,
   eventController.allEvents,
   eventController.filterForUser,
-  // eventController.getFullEvents,   //ALL COMMENTED OUT OBSOLETE - KEPT IN CASE NEEDED LATER - REPLACED BY .allEvents and .filterForUser
-  // eventController.getAllAttendees,
-  // eventController.getUserDetail,
-  // eventController.consolidation,
   (req, res) => {
     const responseObj = {
       users: res.locals.allUserInfo,
       events: res.locals.allEventsInfo,
     };
-    console.log('responseObj: ', responseObj);
     return res.status(200).json(responseObj);
   }
 );
 
 // LOGGING OUT
+<<<<<<< HEAD
 
 router.use(
   '/logout', // SWITCH THIS TO POST REQUEST!!
+=======
+router.use('/logout', // SWITCH THIS TO POST REQUEST!!
+>>>>>>> master
   cookieController.removeCookie,
   (req, res) => {
     return res.status(200).json('Successful logout.');
@@ -63,9 +68,13 @@ router.use(
 );
 
 // CREATE A NEW EVENT
+<<<<<<< HEAD
 
 router.post(
   '/create',
+=======
+router.post('/create',
+>>>>>>> master
   fileController.verifyUser,
   fileController.getUser,
   eventController.createEvent,
@@ -76,9 +85,13 @@ router.post(
 );
 
 // ADD USER TO AN EXISTING EVENT
+<<<<<<< HEAD
 
 router.post(
   '/add',
+=======
+router.post('/add',
+>>>>>>> master
   fileController.getUser,
   eventController.verifyAttendee,
   eventController.addAttendee,
