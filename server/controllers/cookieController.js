@@ -1,8 +1,12 @@
 const cookieController = {};
 //set new cookie from JWT
 cookieController.setSSIDCookie = (req, res, next) => {
-  res.cookie('user', res.locals.token, { httpOnly: true });
-  return next();
+  if (res.locals.token) {
+    res.cookie('user', res.locals.token, { httpOnly: true });
+    return next();
+  } else {
+    return new Error(`Token undefined`);
+  }
 };
 //check if user is logged in (has cookie) - if not return 401 error
 cookieController.isLoggedIn = (req, res, next) => {
